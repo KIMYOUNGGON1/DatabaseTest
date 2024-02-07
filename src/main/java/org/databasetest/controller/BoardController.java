@@ -1,6 +1,7 @@
 package org.databasetest.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.databasetest.exception.LoginFailureException;
 import org.databasetest.model.Board;
 import org.databasetest.model.UserInfo;
 import org.databasetest.service.BoardService;
@@ -42,17 +43,25 @@ public class BoardController {
         return "member/login";
     }
 
+
     @PostMapping("/login")
     public String performLogin(@RequestParam String username, @RequestParam String password, Model model) {
         UserInfo user = userService.findByUsername(username);
-        if (user == null || !user.getPassword().equals(password)) {
-            model.addAttribute("loginError", "Invalid username or password");
-            return "member/login";
-        } else {
+        if (user != null && user.getPassword().equals(password)) {
             model.addAttribute("username", username);
             return "redirect:/getList";
+        } else {
+            throw new LoginFailureException("Invalid username or password.");
         }
     }
+
+    @ExceptionHandler(LoginFailureException.class)
+    public String handleLoginFailure(LoginFailureException ex, Model model) {
+        model.addAttribute("loginError", ex.getMessage());
+        model.addAttribute("userInfo", new UserInfo()); // to reset the login form
+        return "member/login";
+    }
+
     @GetMapping("/register")
     public String registrationForm(Model model) {
         model.addAttribute("userInfo", new UserInfo());
@@ -120,5 +129,16 @@ public class BoardController {
     public String deleteBoard(@PathVariable ( "id" ) Long id) {
         boardService.delete(id);
         return "redirect:/getList";
+    }
+
+    /**
+     * View Board
+     */
+
+    @GetMapping("/viewBoard/{id}")
+    public String viewBoard(@PathVariable("id") Long id, Model model) {
+        Board board = boardService.findById(id);
+        model.addAttribute("board", board);
+        return "board/view";
     }
 }
