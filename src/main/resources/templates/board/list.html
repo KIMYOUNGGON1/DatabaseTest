@@ -19,9 +19,9 @@
         <td th:text="${board.title}"></td>
         <td th:text="${board.author}"></td>
         <td>
-            <a th:href="@{/viewBoard/{id}(id=${board.id})}">View</a> |
-            <a th:href="@{/editBoard/{id}(id=${board.id})}">Edit</a> |
-            <a th:href="@{/deleteBoard/{id}(id=${board.id})}">Delete</a>
+            <a th:href="@{/board/viewBoard/{id}(id=${board.id})}">View</a> |
+            <a th:href="@{/board/editBoard/{id}(id=${board.id})}">Edit</a> |
+            <a th:href="@{/board/deleteBoard/{id}(id=${board.id})}">Delete</a>
         </td>
     </tr>
     </tbody>
