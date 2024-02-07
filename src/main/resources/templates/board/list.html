@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>List of Boards</title>
+</head>
+<body>
+<h2>List of Boards</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${boards}">
+        <td th:text="${board.title}"></td>
+        <td th:text="${board.author}"></td>
+        <td>
+            <a th:href="@{/viewBoard/{id}(id=${board.id})}">View</a> |
+            <a th:href="@{/editBoard/{id}(id=${board.id})}">Edit</a> |
+            <a th:href="@{/deleteBoard/{id}(id=${board.id})}">Delete</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+<a th:href="@{/addBoard}">Add New Board</a>
+</body>
+</html>
