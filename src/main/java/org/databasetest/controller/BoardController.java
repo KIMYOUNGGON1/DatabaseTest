@@ -38,26 +38,26 @@ public class BoardController {
         return "redirect:/board/getList";
     }
 
-    @GetMapping("/edit/{id}")
+    @GetMapping("/editBoard/{id}")
     public String editBoardForm(@PathVariable("id") Long id, Model model) {
         Board board = boardService.findById(id);
         model.addAttribute("board", board);
         return "board/edit";
     }
 
-    @PostMapping("/update")
+    @PostMapping("/updateBoard")
     public String updateBoard(@ModelAttribute Board board) {
         boardService.update(board);
         return "redirect:/board/getList";
     }
 
-    @GetMapping("/delete/{id}")
+    @GetMapping("/deleteBoard/{id}")
     public String deleteBoard(@PathVariable("id") Long id) {
         boardService.delete(id);
         return "redirect:/board/getList";
     }
 
-    @GetMapping("/view/{id}")
+    @GetMapping("/viewBoard/{id}")
     public String viewBoard(@PathVariable("id") Long id, Model model) {
         Board board = boardService.findById(id);
         model.addAttribute("board", board);
